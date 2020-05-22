@@ -122,9 +122,9 @@ c_compiler.setCommandPattern('|>TOOL<| |>TOOL_OPTIONS<| |>OUTPUT_FLAG<||>OUTPUT<
 cpp_compiler = tc.getBuildTool( 'C++ Compiler');
 cpp_compiler.setName(           'Emscripten C++ Compiler');
 if strcmp(tc.Platform,'win64')
-    cpp_compiler.setCommand(        'em++.bat');
+    cpp_compiler.setCommand(        'emcc.bat');
 else % glnxa64 or maci64
-    cpp_compiler.setCommand(        '$(EMSCRIPTEN)/em++');
+    cpp_compiler.setCommand(        '$(EMSCRIPTEN)/emcc');
 end
 cpp_compiler.setPath(           '');
 cpp_compiler.setDirective(      'CompileFlag',          '-c');
@@ -165,9 +165,9 @@ c_linker.setCommandPattern('|>TOOL<| |>TOOL_OPTIONS<| |>OUTPUT_FLAG<||>OUTPUT<|'
 cpp_linker = tc.getBuildTool( 'C++ Linker');
 cpp_linker.setName(           'Emscripten C++ Linker');
 if strcmp(tc.Platform,'win64')
-    cpp_linker.setCommand(        'em++.bat');
+    cpp_linker.setCommand(        'emcc.bat');
 else % glnxa64 or maci64
-    cpp_linker.setCommand(        fullfile('$(EMSCRIPTEN)','em++'));
+    cpp_linker.setCommand(        fullfile('$(EMSCRIPTEN)','emcc'));
 end
 cpp_linker.setPath(           '');
 cpp_linker.setDirective(      'Library',              '-l');
@@ -189,7 +189,7 @@ cpp_linker.setCommandPattern('|>TOOL<| |>TOOL_OPTIONS<| |>OUTPUT_FLAG<||>OUTPUT<
 archiver = tc.getBuildTool( 'Archiver');
 archiver.setName(           'Emscripten C Archiver');
 if strcmp(tc.Platform,'win64')
-    archiver.setCommand(        'emar.bat');
+    archiver.setCommand(        'emcc.bat');
 else % glnxa64 or maci64
     archiver.setCommand(        fullfile('$(EMSCRIPTEN)','emcc'));
 end
@@ -244,17 +244,19 @@ cfg.setOption( 'Archiver',              horzcat(archiverOpts,     debugFlag.Arch
 
 
 % Set the toolchain flags for 'Biolib Default' build configuration
-biolib_req_flags = {'-s WASM=1 -s WASM_MEM_MAX=512MB -s TOTAL_MEMORY=512MB -s -g2 -s EMIT_EMSCRIPTEN_METADATA=1 -s LEGALIZE_JS_FFI=1 -s FORCE_FILESYSTEM=1 -lidbfs.js -lnodefs.js -s EXIT_RUNTIME=1'};
+biolib_req_flags = {'-s WASM_MEM_MAX=512MB -s TOTAL_MEMORY=512MB -s -g2 -s EMIT_EMSCRIPTEN_METADATA=1 -s LEGALIZE_JS_FFI=1 -s FORCE_FILESYSTEM=1 -lidbfs.js -lnodefs.js -s EXIT_RUNTIME=1'};
 app_additional_flags = {'-s ERROR_ON_UNDEFINED_SYMBOLS=0'};
 es6_module_flags = {'-s EXTRA_EXPORTED_RUNTIME_METHODS="[''ccall'', ''cwrap'']" -s EXPORT_ES6=1 -s MODULARIZE=1'};
 
 tc.addBuildConfiguration('Biolib Default');
 cfg = tc.getBuildConfiguration('Biolib Default');
-cfg.setOption( 'C Compiler',            horzcat(es6_module_flags));
-cfg.setOption( 'C++ Compiler',          horzcat(es6_module_flags));
-cfg.setOption( 'Linker',                horzcat(es6_module_flags));
-cfg.setOption( 'C++ Linker',            horzcat(es6_module_flags));
-cfg.setOption( 'Archiver',              horzcat(es6_module_flags));
+cfg.setOption( 'C Compiler',                horzcat(es6_module_flags,biolib_req_flags,app_additional_flags));
+cfg.setOption( 'C++ Compiler',              horzcat(es6_module_flags,biolib_req_flags,app_additional_flags));
+cfg.setOption( 'Linker',                    horzcat(es6_module_flags,biolib_req_flags,app_additional_flags));
+cfg.setOption( 'C++ Linker',                horzcat(es6_module_flags,biolib_req_flags,app_additional_flags));
+cfg.setOption( 'Shared Library Linker',     horzcat(es6_module_flags,biolib_req_flags,app_additional_flags));
+cfg.setOption( 'C++ Shared Library Linker', horzcat(es6_module_flags,biolib_req_flags,app_additional_flags));
+cfg.setOption( 'Archiver',                  horzcat(es6_module_flags,biolib_req_flags,app_additional_flags));
 
 
 
