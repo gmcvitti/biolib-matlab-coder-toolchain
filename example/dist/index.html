@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+    <head>
+        <meta charset="utf-8">
+        <title>BioLib Example</title>
+    </head>
+    <body>
+        <script type="module">
+            import Module from './foo.js'
+            Module().then(function(mymod) {
+                const int_sqrt = mymod.cwrap('foo', 'number', ['number']);
+                console.log(foo(64));
+            });
+        </script>
+    </body>
+</html>
