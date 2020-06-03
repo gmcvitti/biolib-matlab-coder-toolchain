@@ -3,9 +3,24 @@
 #include "main_biolib.h"
 
 int main(int argc, char** argv) {
-    emxArray_char_T *arg1 = emxCreateWrapper_char_T(argv[1], 1, strlen(argv[1]));
-    emxArray_char_T *arg2 = emxCreateWrapper_char_T(argv[2], 1, strlen(argv[2]));
-    emxArray_char_T *arg3 = emxCreateWrapper_char_T(argv[3], 1, strlen(argv[3]));
-    emxArray_char_T *arg4 = emxCreateWrapper_char_T(argv[4], 1, strlen(argv[4]));
-    return main_biolib(argc, arg1, arg2, arg3, arg4);
+    // concat input parameters to a single space-separated string
+    int parameters_string_len = 1;
+    char *parameters = (char*) malloc(parameters_string_len);
+
+    for(int i = 0; i < argc; i++) {
+        parameters_string_len += strlen(argv[i]);
+        parameters = (char*) realloc(parameters, parameters_string_len);
+        strncat(parameters, argv[i], parameters_string_len);
+        if (i != argc - 1) {
+            parameters_string_len++;
+            parameters = (char*) realloc(parameters, parameters_string_len);
+            strncat(parameters, " ", parameters_string_len);
+        }
+    }
+
+    // cast parameters string to MATLAB compatible string
+    emxArray_char_T *parameters_emx = emxCreateWrapper_char_T(parameters, 1, strlen(parameters));
+
+    // call custom MATLAB function
+    return main_biolib(parameters_emx);
 }
