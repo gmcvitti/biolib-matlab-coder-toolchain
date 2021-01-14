@@ -1,6 +1,9 @@
 BioLib is a collection of bioinformatics apps that is built with privacy and data security in mind; your input data stays on your machine to ensure the confidentiality of your data. Conveniently, BioLib tools can also be developed in MATLAB by using **BioLib-MATLAB-Coder-JavaScript-Toolchain**. This toolchain contains MATLAB files and one example of a simple tool.
 
 ## How to set it up:
+**Download this project**
+
+First of all, you have to download the project locally. You can either clone it like this `git clone https://github.com/biolibtech/biolib-matlab-coder-toolchain.git` or download it from this page.
 
 **Setup Tooling**
 
