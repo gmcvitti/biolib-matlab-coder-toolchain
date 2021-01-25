@@ -35,7 +35,7 @@ biolib.generateToolchainFile();
 RTW.TargetRegistry.getInstance('reset');
 ```
 
-If you are using Linux or MacOS, depending on your machine the generation of the tool chain will fail. In [this file](https://github.com/biolibtech/biolib-matlab-coder-toolchain/blob/master/%2Bbiolib/getToolchain.m) line 81, swaping `bash` by `source` or vice-versa, will solve the problem. 
+If you are using Linux or MacOS, depending on your machine the generation of the tool chain will fail. In [this file](https://github.com/biolibtech/biolib-matlab-coder-toolchain/blob/master/%2Bbiolib/getToolchain.m) line 81, exchanging `bash` by `source` or vice-versa, will solve the problem. 
 
 
 **Build Sample Function**
