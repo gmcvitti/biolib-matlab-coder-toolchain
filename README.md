@@ -1,6 +1,9 @@
 BioLib is a collection of bioinformatics apps that is built with privacy and data security in mind; your input data stays on your machine to ensure the confidentiality of your data. Conveniently, BioLib tools can also be developed in MATLAB by using **BioLib-MATLAB-Coder-JavaScript-Toolchain**. This toolchain contains MATLAB files and one example of a simple tool.
 
 ## How to set it up:
+**Download this project**
+
+First of all, you have to download the project locally. You can either clone it like this `git clone https://github.com/biolibtech/biolib-matlab-coder-toolchain.git` or download it from this page.
 
 **Setup Tooling**
 
@@ -115,6 +118,6 @@ codegen -config cfg main_biolib -args {'a',[1 inf]} main.c
 
 Find a setup file here, that running it with the correct function name (included in the last line), it will produce a WASM file that runs in BioLib.
 
-[setup_biolib.mlx](https://s3-us-west-2.amazonaws.com/secure.notion-static.com/87465617-f1c3-499d-a389-8faa3bc0e234/setup_biolib.mlx)
+[setup.mlx](https://github.com/biolibtech/biolib-matlab-coder-toolchain/edit/updating-toolchain/setup.mlx)
 
 The last step is to upload the WASM file as an emscripten module in a BioLib application, just like in the previous example now also on [BioLib](https://biolib.com/laurabiolib/BioLib-MATLAB-ToolChain/). One can learn how to create your first BioLib application [here](https://biolib.com/docs/building-applications/creating-your-first-application) and share it with fellow developers and bioinformaticians.
