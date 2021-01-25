@@ -1,6 +1,6 @@
-BioLib is a collection of bioinformatics apps that is built with privacy and data security in mind; your input data stays on your machine to ensure the confidentiality of your data. Conveniently, BioLib tools can also be developed in MATLAB by using **BioLib-MATLAB-Coder-JavaScript-Toolchain**. This toolchain contains MATLAB files and one example of a simple tool.
+[BioLib](https://biolib.com) is a library of bioinformatics applications written in a wide range of programming languages. Conveniently, BioLib applications can also be developed in MATLAB by using **BioLib-MATLAB-Coder-Toolchain**. This toolchain contains MATLAB files and one example of a simple tool.
 
-## How to set it up:
+## Getting Started
 **Download this project**
 
 First of all, you have to download the project locally. You can either clone it like this `git clone https://github.com/biolibtech/biolib-matlab-coder-toolchain.git` or download it from this page.
@@ -37,32 +37,28 @@ RTW.TargetRegistry.getInstance('reset');
 
 **Build Sample Function**
 
-Navigate to the example directory, you can optionally create the function in another directory.
+Navigate to the example directory:
 
 ```matlab
 cd(fullfile(biolib.getDirectory("SUPPORTPACKAGEROOT"),"example"));
 ```
 
-Create a single entry-point function. This simple example takes a DNA string and it counts the proportion of Adenine, Thymine, Cytosine and Guanine. 
-
- In this example, the parameters are a string formed by two words `-i <dna string>`  , depending on the arguments that will be entered in the tool the developer may take into account that each parameter needs a an argument to call it in BioLib. Afterwards, split the parameters and assign each position to a variable.
-
-To show the output, one can (1) print them as stdout or (2) write them in a file. It is needed to use the line `out = 0` as it informs that the tool has successfully run. 
+Create a single entry-point function called `main(parameters)`. In the example below, this function takes in a DNA string and it calculates the proportion of Adenine, Thymine, Cytosine and Guanine.
 
 ```matlab
 % Example function
 function out = main(parameters)
-	
-	% Parse input arguments
-	args = split_arguments_by_space(parameters);
-	dna = upper(args{2});
-	
-	adenine = int8(0);
-	thymine = int8(0);
-	cytosine = int8(0);
-	guanine = int8(0);
+%parameters = '-i atcgagctatgctagATGAT'
+% Parse input arguments
+args = split_arguments_by_space(parameters);
+dna = upper(args{3});
 
-	for i = 1:length(dna)
+adenine = int8(0);
+thymine = int8(0);
+cytosine = int8(0);
+guanine = int8(0);
+
+for i = 1:length(dna)
     if dna(i) == 'A'
         adenine = adenine + 1
     elseif dna(i) == 'T'
@@ -72,32 +68,34 @@ function out = main(parameters)
     elseif dna(i) == 'G'
         guanine = guanine + 1
     end
-	end
+end
 
-	fprintf('A:%d; T:%d; C:%d; G:%d', adenine, thymine, cytosine, guanine)
+fprintf('A:%d; T:%d; C:%d; G:%d', adenine, thymine, cytosine, guanine)
 
-	% Return code
-	out = 0;
+% Return code
+out = 0;
 end
 
 % Needed function that reads the input arguments
-function args = split_arguments_by_space(argument_string)         
-    if any(isspace(argument_string))      
-        space_diff = diff(isspace(argument_string));
-        start_positions = [1, find(space_diff == -1) + 1];
-        end_positions = [find(space_diff == 1), length(argument_string)];
-        number_of_args = numel(start_positions);
-        args = cell(1, number_of_args);
-        for i = 1 : number_of_args
-            args{i} = argument_string(start_positions(i):end_positions(i));
-        end                
-    else
-        args = {argument_string};
+function args = split_arguments_by_space(argument_string)
+if any(isspace(argument_string))
+    space_diff = diff(isspace(argument_string));
+    start_positions = [1, find(space_diff == -1) + 1];
+    end_positions = [find(space_diff == 1), length(argument_string)];
+    number_of_args = numel(start_positions);
+    args = cell(1, number_of_args);
+    for i = 1 : number_of_args
+        args{i} = argument_string(start_positions(i):end_positions(i));
     end
+else
+    args = {argument_string};
+end
 end
 ```
 
-The calls to `coder.updateBuildInfo` allow the function to be exported and accessed from the Module when loaded in the JavaScript runtime environment.
+In the above example, the parameters are a string formed by two words `-i <dna string>`. Depending on the arguments that will be entered in the tool, the developer may want take into account that each parameter needs an argument name to pass it from BioLib. We split the parameter string in the example, and assign each position to a variable.
+
+To show the output, one can (1) print them as stdout or (2) write them in a file. It is needed to use the line `out = 0` as it informs that the tool has successfully run. 
 
 ```matlab
 cfg = coder.config("dll");
@@ -108,11 +106,7 @@ cfg.Toolchain = 'BiolibWasm';
 
 cfg.BuildConfiguration = 'Biolib Default';
 cfg.CustomSource = 'main.c';
-```
 
-Finally, run these two lines. t refers to the input type that the function accepts and it needs to be defined according to it. 
-
-```matlab
 codegen -config cfg main_biolib -args {'a',[1 inf]} main.c
 ```
 
@@ -120,4 +114,4 @@ Find a setup file here, that running it with the correct function name (included
 
 [setup.mlx](https://github.com/biolibtech/biolib-matlab-coder-toolchain/edit/updating-toolchain/setup.mlx)
 
-The last step is to upload the WASM file as an emscripten module in a BioLib application, just like in the previous example now also on [BioLib](https://biolib.com/laurabiolib/BioLib-MATLAB-ToolChain/). One can learn how to create your first BioLib application [here](https://biolib.com/docs/building-applications/creating-your-first-application) and share it with fellow developers and bioinformaticians.
+The last step is to upload the WASM file,  `biolib_main.wasm`, as an emscripten module in a BioLib application, just like in the previous example now also on [BioLib](https://biolib.com/laurabiolib/BioLib-MATLAB-ToolChain/). You can learn how to create your first BioLib application [here](https://biolib.com/docs/building-applications/creating-your-first-application) and share it with fellow developers and bioinformaticians.
