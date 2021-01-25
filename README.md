@@ -112,6 +112,6 @@ codegen -config cfg main_biolib -args {'a',[1 inf]} main.c
 
 Find a setup file here, that running it with the correct function name (included in the last line), it will produce a WASM file that runs in BioLib.
 
-[setup.mlx](https://github.com/biolibtech/biolib-matlab-coder-toolchain/edit/updating-toolchain/setup.mlx)
+[setup.mlx](https://github.com/biolibtech/biolib-matlab-coder-toolchain/blob/master/setup.mlx)
 
 The last step is to upload the WASM file,  `biolib_main.wasm`, as an emscripten module in a BioLib application, just like in the previous example now also on [BioLib](https://biolib.com/laurabiolib/BioLib-MATLAB-ToolChain/). You can learn how to create your first BioLib application [here](https://biolib.com/docs/building-applications/creating-your-first-application) and share it with fellow developers and bioinformaticians.
