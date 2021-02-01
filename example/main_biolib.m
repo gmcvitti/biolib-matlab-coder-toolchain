@@ -1,8 +1,7 @@
 % Example function
-function out = main(parameters)
-%parameters = '-i atcgagctatgctagATGAT'
+function out = main(arguments);
 % Parse input arguments
-args = split_arguments_by_space(parameters);
+args = split_arguments_by_space(arguments);
 dna = upper(args{3});
 
 adenine = int8(0);
@@ -28,7 +27,7 @@ fprintf('A:%d; T:%d; C:%d; G:%d', adenine, thymine, cytosine, guanine)
 out = 0;
 end
 
-% Needed function that reads the input arguments
+% Helper function that reads the input arguments
 function args = split_arguments_by_space(argument_string)
 if any(isspace(argument_string))
     space_diff = diff(isspace(argument_string));
