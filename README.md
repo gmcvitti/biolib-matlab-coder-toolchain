@@ -37,7 +37,7 @@ biolib.generateToolchainFile();
 RTW.TargetRegistry.getInstance("reset");
 ```
 
-Depending on your machine's default shell, the generation of the toolchain might fail. If so, in [this file](https://github.com/biolibtech/biolib-matlab-coder-toolchain/blob/master/%2Bbiolib/getToolchain.m) line 81, try exchanging `bash` by `source` or vice-versa, to solve the problem. 
+Depending on your machine's default shell, the generation of the toolchain might fail. If so, in `+biolib/getToolchain.m` line 81, try exchanging `bash` by `source` or vice-versa, to solve the problem. 
 
 
 ### Build Sample Function
