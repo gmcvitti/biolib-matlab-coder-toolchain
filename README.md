@@ -1,4 +1,4 @@
-# BioLib MATLAB Coder Toolchain
+# BioLib-MATLAB-Coder-Toolchain
 
 [BioLib](https://biolib.com) is a library of bioinformatics applications written in a wide range of programming languages. Conveniently, BioLib applications can also be developed in MATLAB by using the **BioLib-MATLAB-Coder-Toolchain**. The toolchain achieves this by compiling MATLAB code to a BioLib-compatible WebAssembly executable.
 
